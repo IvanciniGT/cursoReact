@@ -6,9 +6,10 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <User firstName="Ivan" lastName="Osuna" />
-    <User firstName="Ivana" lastName="Osuno" />
-    <User firstName="Lucas" />
+    <User id="ivancini"/>
+    <User id="erikini"/>
+    <User id="juanini"/>
+    <User id="iniguigui"/>
   </React.StrictMode>,
   document.getElementById('root')
 );
