@@ -8,8 +8,8 @@ ReactDOM.render(
   <React.StrictMode>
     <User id="ivancini"/>
     <User id="erikini"/>
-    <User id="juanini"/>
-    <User id="iniguigui"/>
+    <User id="juanini" mode="normal"/>
+    <User id="iniguigui" mode="extended"/>
   </React.StrictMode>,
   document.getElementById('root')
 );

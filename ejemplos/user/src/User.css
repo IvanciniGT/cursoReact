@@ -1,24 +1,59 @@
-.user{
-    width: fit-content;
+.user.minimal{
+    width: 200px;
+    padding: 10px;
+    border: solid 1px #777777;
+    border-radius: 3px;
+    margin: 10px; 
+    background-color: #ddffdd;
+}
+.user.minimal > .info > .firstName {
+    display: inline-block;
+}
+.user.minimal > .info > .lastName {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+
+
+.user.normal{
+    width: 250px;
     padding: 20px;
     border: solid 1px #777777;
     border-radius: 3px;
     margin: 10px; 
     background-color: #ddddff;
 }
-.user > .info { }
-.user > .info > .firstName {
-    display: inline-block;
+.user.extended{
+    width: 300px;
+    padding: 20px;
+    border: solid 1px #777777;
+    border-radius: 3px;
+    margin: 10px; 
+    background-color: #ffdddd;
 }
-.user > .info > .firstName::before {
+.user > .info > .firstName {
+    display: block;
+}
+.user.normal > .info > .firstName::before, 
+.user.extended > .info > .firstName::before {
     content:"Nombre:" ;
     display: inline-block;
 }
 .user > .info > .lastName {
-    display: inline-block;
-    margin-left: 20px;
+    display: block;
 }
-.user > .info > .lastName::before {
+.user.normal > .info > .lastName::before ,
+.user.extended > .info > .lastName::before {
     content:"Apellidos:" ;
+    display: inline-block;
+}
+
+.user > .info > .email {
+    display: block;
+}
+.user.normal > .info > .email::before ,
+.user.extended > .info > .email::before {
+    content:"Email:" ;
     display: inline-block;
 }
