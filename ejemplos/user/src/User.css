@@ -1,0 +1,24 @@
+.user{
+    width: fit-content;
+    padding: 20px;
+    border: solid 1px #777777;
+    border-radius: 3px;
+    margin: 10px; 
+    background-color: #ddddff;
+}
+.user > .info { }
+.user > .info > .firstName {
+    display: inline-block;
+}
+.user > .info > .firstName::before {
+    content:"Nombre:" ;
+    display: inline-block;
+}
+.user > .info > .lastName {
+    display: inline-block;
+    margin-left: 20px;
+}
+.user > .info > .lastName::before {
+    content:"Apellidos:" ;
+    display: inline-block;
+}
