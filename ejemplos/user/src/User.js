@@ -21,13 +21,18 @@ class User extends React.Component{
     constructor(props){
         super(props);  // Los props los entendemos como constantes. No se editan
         this.userInfo=UserData.userInfo(props.id);
-        this.state={"showMore": false};
+        this.state=this.generateState(false);
     }
-     
+    toogleMore(){
+        this.setState(this.generateState(!this.state.showMore));
+    }
+    generateState(showMore){
+        return {"showMore": showMore};
+    }
     render(){
                     // JSX    VVVVVVV
         return (
-            <div class={`user ${this.props.mode}`}>
+            <div class={`user ${this.props.mode}`} onClick={this.toogleMore.bind(this)}>
                 <div class="info">
                     { User.FIELDS[this.props.mode].info.map( (campo) => <div class={campo}> {this.userInfo[campo]} </div> ) }
                 </div>

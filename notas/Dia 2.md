@@ -36,4 +36,13 @@ CAMBIO 3
             <boton> -> Click -> cambiar el state
         <div info-extendida> 
     
-    
+Componente: User
+
+COMPONENTE NUEVO: UserList
+    prop: mode
+    <div class="userList">
+        <div class="users">
+            <User id="" mode/>
+            ...
+        </div>
+    <div>

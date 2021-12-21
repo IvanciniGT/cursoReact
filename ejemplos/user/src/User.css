@@ -1,3 +1,7 @@
+.user.minimal, .user.normal{
+    cursor: pointer;
+}
+
 .user.minimal{
     width: 200px;
     padding: 10px;
