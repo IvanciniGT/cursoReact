@@ -2,14 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import User from './User';
+import UserList from './UserList';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <User id="ivancini"/>
-    <User id="erikini"/>
     <User id="juanini" mode="normal"/>
-    <User id="iniguigui" mode="extended"/>
+    <User id="erikini" mode="extended"/>
+
+    <UserList mode="normal"/>
   </React.StrictMode>,
   document.getElementById('root')
 );

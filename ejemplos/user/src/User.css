@@ -9,6 +9,17 @@
     border-radius: 3px;
     margin: 10px; 
     background-color: #ddffdd;
+    min-height: max-content;
+}
+.user.minimal .picture{
+    display: contents;
+}
+.user.minimal .picture img{
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
 }
 .user.minimal > .info > .firstName {
     display: inline-block;
@@ -21,12 +32,13 @@
 
 
 .user.normal{
-    width: 250px;
+    width: 300px;
     padding: 20px;
     border: solid 1px #777777;
     border-radius: 3px;
     margin: 10px; 
     background-color: #ddddff;
+    min-height: max-content;
 }
 .user.extended{
     width: 300px;
@@ -35,11 +47,11 @@
     border-radius: 3px;
     margin: 10px; 
     background-color: #ffdddd;
+    min-height: fit-content;
 }
 .user > .info > .firstName {
     display: block;
 }
-.user.normal > .info > .firstName::before, 
 .user.extended > .info > .firstName::before {
     content:"Nombre:" ;
     display: inline-block;
@@ -47,7 +59,6 @@
 .user > .info > .lastName {
     display: block;
 }
-.user.normal > .info > .lastName::before ,
 .user.extended > .info > .lastName::before {
     content:"Apellidos:" ;
     display: inline-block;
@@ -56,8 +67,26 @@
 .user > .info > .email {
     display: block;
 }
-.user.normal > .info > .email::before ,
 .user.extended > .info > .email::before {
     content:"Email:" ;
     display: inline-block;
+}
+
+.user.normal .picture,
+.user.extended .picture{
+    display: contents;
+}
+.user.normal .picture img{
+    display: block;
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.user.extended .picture img{
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
 }

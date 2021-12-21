@@ -33,12 +33,16 @@ class User extends React.Component{
                     // JSX    VVVVVVV
         return (
             <div class={`user ${this.props.mode}`} onClick={this.toogleMore.bind(this)}>
+                <div class="picture">
+                        <img src={`/pictures/default.png`} 
+                          alt={`Fotografía del usuario: ${this.userInfo.firstName} ${this.userInfo.lastName}`}/>
+                </div>
                 <div class="info">
-                    { User.FIELDS[this.props.mode].info.map( (campo) => <div class={campo}> {this.userInfo[campo]} </div> ) }
+                    { User.FIELDS[this.props.mode].info.map( (campo) => <div key={campo} class={campo}> {this.userInfo[campo]} </div> ) }
                 </div>
                 { this.state.showMore && 
                     <div class="more">
-                        { User.FIELDS[this.props.mode].more.map( (campo) => <div class={campo}> {this.userInfo[campo]} </div> ) }
+                        { User.FIELDS[this.props.mode].more.map( (campo) => <div key={campo} class={campo}> {this.userInfo[campo]} </div> ) }
                     </div>
                 }
             </div>

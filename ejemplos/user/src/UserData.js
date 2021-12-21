@@ -1,15 +1,6 @@
 class UserData {
     static USERS=[
             {
-                id: "ivancini",
-                firstName: "Ivan",
-                lastName: "Osuna",
-                email: "ivan.osuna@empresa.com",
-                phone: "98798798",
-                jobPosition: "Software developer",
-                department: "IT",
-            },
-            {
                 id: "erikini",
                 firstName: "Erika",
                 lastName: "Regueiro",
