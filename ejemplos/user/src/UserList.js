@@ -29,9 +29,9 @@ class UserList extends React.Component{
         //this.filtro= React.createRef();
     }
     
-    generarState(usuarios){
+    generarState(usuarios,datosCargados=false){
         usuarios=usuarios||this.state.users;
-        return {"users": usuarios};
+        return {"users": usuarios,"datosCargados": datosCargados};
     }
     toogleFavorito(userid,evento){
         evento.stopPropagation();
@@ -50,7 +50,14 @@ class UserList extends React.Component{
         return texto;
     } 
     
-    filtrarUsuarios(){
+    recargarUsuarios(){
+        this.setState(this.generarState(null, false));
+        // Si quereis simular un retraso: 
+        setTimeout(()=>this.filtrarUsuarios(),1000);
+        // En estado normal:
+        //this.filtrarUsuarios();
+    }
+    async filtrarUsuarios(){
         // :( var filtro=document.getElementById("MIIDGENIAL_QUE DEBOASEGURARQUESEAUNICO").value; //RUINA GIGANTE !!!!
         //var filtro=evento.target.value; // Para este caso cuela!
                                         // Esto no es REACT STYLE: referencias
@@ -85,7 +92,7 @@ class UserList extends React.Component{
             // negativo: elemnto 1 antes del 2
             // 0 los deja en el orden que estén
             // positivo: elemento 2 debe ir antes que el 1
-            this.setState(this.generarState( nuevos_usuarios.slice(0,this.numeroUsuariosActual)));
+            this.setState(this.generarState( nuevos_usuarios.slice(0,this.numeroUsuariosActual),true));
 //        }
     }
     // METODO 1... REFERENCIAS:
@@ -109,23 +116,33 @@ class UserList extends React.Component{
     componentDidMount(){
         //window.addEventListener("scroll", (event) => this.seHaHechoScroll(event)); 
         window.addEventListener("scroll", this.seHaHechoScroll); 
-        this.filtrarUsuarios();
+        // Si quereis simular un retraso: 
+        setTimeout(()=>this.filtrarUsuarios(),1000);
+        // En estado normal:
+        //this.filtrarUsuarios();
     }
     componentWillUnmount(){
         window.removeEventListener("scroll", this.seHaHechoScroll);
     }
 
     render(){
+        var cuerpo;
+            if(this.state.datosCargados){
+                cuerpo=<div className="users">
+                    { this.state.users.map( (usuario) => 
+                    <User favorito={this.favoritos.includes(usuario.id)} onFavoritoChange={(evento)=>this.toogleFavorito(usuario.id,evento)} key={usuario.id} id={usuario.id} mode={this.props.mode}/> ) }
+                </div>;
+            }else{
+                cuerpo=<div>Cargando...</div>;
+            }
+
         return (
             <div className={`userList ${this.props.mode}`}>
                 <div className="filters">
                     Buscar:
-                    <input type="text" ref={(referencia) => this.filtro=referencia } onChange={this.filtrarUsuarios.bind(this)}></input>
+                    <input type="text" ref={(referencia) => this.filtro=referencia } onChange={this.recargarUsuarios.bind(this)}></input>
                 </div>
-                <div className="users">
-                    { this.state.users.map( (usuario) => 
-                    <User favorito={this.favoritos.includes(usuario.id)} onFavoritoChange={(evento)=>this.toogleFavorito(usuario.id,evento)} key={usuario.id} id={usuario.id} mode={this.props.mode}/> ) }
-                </div>
+                {cuerpo}
             </div>
         );
     }
