@@ -15,34 +15,34 @@ Inicialmente cargo 2... y segun me acerque al final de la pagina voy cargando de
 */
 
 class UserList extends React.Component{
-    
+    static numeroUsuariosInicial=4;
     constructor(props){
         super(props);
         //this.state=this.generarState(UserData.usersInfo());
-        this.numeroUsuariosActual=4;
+        this.numeroUsuariosActual=UserList.numeroUsuariosInicial;
         //this.numeroUsuariosTotal=this.state.users.length;
         this.numeroUsuariosTotal=0;
-        this.state=this.generarState([],[]);
+        this.favoritos=[];
+        this.state=this.generarState([]);
         this.seHaHechoScroll=this.seHaHechoScroll.bind(this);
         // METODO 1... REFERENCIAS:
         //this.filtro= React.createRef();
     }
     
-    generarState(usuarios,favoritos=this.state.favoritos){
+    generarState(usuarios){
         usuarios=usuarios||this.state.users;
-        return {"users": usuarios, "favoritos": favoritos};
+        return {"users": usuarios};
     }
     toogleFavorito(userid,evento){
         evento.stopPropagation();
         var nuevos_favoritos;
-        if ( this.state.favoritos.includes(userid)){
+        if ( this.favoritos.includes(userid)){
             // Eliminar el usuario de los favoritos
-            nuevos_favoritos=this.state.favoritos.filter((usuario_id) => usuario_id !== userid);
+            this.favoritos=this.favoritos.filter((usuario_id) => usuario_id !== userid);
         }else{
-            this.state.favoritos.push(userid);
-            nuevos_favoritos=this.state.favoritos;
+            this.favoritos.push(userid);
         }
-        this.setState(this.generarState(null,nuevos_favoritos));
+        this.filtrarUsuarios();
     }
     static normalizarParaBusqueda(texto){
         texto=texto.toUpperCase();
@@ -64,14 +64,29 @@ class UserList extends React.Component{
             return UserList.normalizarParaBusqueda(sobreQueBuscar).includes(UserList.normalizarParaBusqueda(filtro));
         } );
         // Solo si cambia?
-        if (nuevos_usuarios.length !== this.state.users.length){
+//        if (nuevos_usuarios.length !== this.state.users.length){
             // Mostraré solo un determinado numero de usuarios
             // En los array de JS teneis la función slice(inicio, final)
             this.numeroUsuariosTotal=nuevos_usuarios.length;
+
+            if (this.numeroUsuariosActual < UserList.numeroUsuariosInicial)
+                this.numeroUsuariosActual=UserList.numeroUsuariosInicial;
+ 
             if (this.numeroUsuariosActual > this.numeroUsuariosTotal)
                 this.numeroUsuariosActual=this.numeroUsuariosTotal;
+            
+            nuevos_usuarios=nuevos_usuarios.sort( (usuario1,usuario2) => {
+                var usuario1Favorito=this.favoritos.includes(usuario1.id);
+                var usuario2Favorito=this.favoritos.includes(usuario2.id);
+                if( usuario1Favorito && usuario2Favorito) return 0;
+                else if( usuario1Favorito ) return -1;
+                else return 1;
+            } );
+            // negativo: elemnto 1 antes del 2
+            // 0 los deja en el orden que estén
+            // positivo: elemento 2 debe ir antes que el 1
             this.setState(this.generarState( nuevos_usuarios.slice(0,this.numeroUsuariosActual)));
-        }
+//        }
     }
     // METODO 1... REFERENCIAS:
     // <input type="text" ref={this.filtro} onChange={this.filtrarUsuarios.bind(this)}></input>
@@ -109,7 +124,7 @@ class UserList extends React.Component{
                 </div>
                 <div className="users">
                     { this.state.users.map( (usuario) => 
-                    <User favorito={this.state.favoritos.includes(usuario.id)} onFavoritoChange={(evento)=>this.toogleFavorito(usuario.id,evento)} key={usuario.id} id={usuario.id} mode={this.props.mode}/> ) }
+                    <User favorito={this.favoritos.includes(usuario.id)} onFavoritoChange={(evento)=>this.toogleFavorito(usuario.id,evento)} key={usuario.id} id={usuario.id} mode={this.props.mode}/> ) }
                 </div>
             </div>
         );
