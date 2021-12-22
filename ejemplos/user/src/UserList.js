@@ -19,19 +19,31 @@ class UserList extends React.Component{
     constructor(props){
         super(props);
         //this.state=this.generarState(UserData.usersInfo());
-        this.numeroUsuariosActual=2;
+        this.numeroUsuariosActual=4;
         //this.numeroUsuariosTotal=this.state.users.length;
         this.numeroUsuariosTotal=0;
-        this.state=this.generarState([]);
+        this.state=this.generarState([],[]);
         this.seHaHechoScroll=this.seHaHechoScroll.bind(this);
         // METODO 1... REFERENCIAS:
         //this.filtro= React.createRef();
     }
     
-    generarState(usuarios){
-        return {"users": usuarios};
+    generarState(usuarios,favoritos=this.state.favoritos){
+        usuarios=usuarios||this.state.users;
+        return {"users": usuarios, "favoritos": favoritos};
     }
-    
+    toogleFavorito(userid,evento){
+        evento.stopPropagation();
+        var nuevos_favoritos;
+        if ( this.state.favoritos.includes(userid)){
+            // Eliminar el usuario de los favoritos
+            nuevos_favoritos=this.state.favoritos.filter((usuario_id) => usuario_id !== userid);
+        }else{
+            this.state.favoritos.push(userid);
+            nuevos_favoritos=this.state.favoritos;
+        }
+        this.setState(this.generarState(null,nuevos_favoritos));
+    }
     static normalizarParaBusqueda(texto){
         texto=texto.toUpperCase();
         texto=texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -58,7 +70,7 @@ class UserList extends React.Component{
             this.numeroUsuariosTotal=nuevos_usuarios.length;
             if (this.numeroUsuariosActual > this.numeroUsuariosTotal)
                 this.numeroUsuariosActual=this.numeroUsuariosTotal;
-            this.setState(this.generarState(nuevos_usuarios.slice(0,this.numeroUsuariosActual)));
+            this.setState(this.generarState( nuevos_usuarios.slice(0,this.numeroUsuariosActual)));
         }
     }
     // METODO 1... REFERENCIAS:
@@ -96,7 +108,8 @@ class UserList extends React.Component{
                     <input type="text" ref={(referencia) => this.filtro=referencia } onChange={this.filtrarUsuarios.bind(this)}></input>
                 </div>
                 <div className="users">
-                    { this.state.users.map( (usuario) => <User key={usuario.id} id={usuario.id} mode={this.props.mode}/> ) }
+                    { this.state.users.map( (usuario) => 
+                    <User favorito={this.state.favoritos.includes(usuario.id)} onFavoritoChange={(evento)=>this.toogleFavorito(usuario.id,evento)} key={usuario.id} id={usuario.id} mode={this.props.mode}/> ) }
                 </div>
             </div>
         );

@@ -27,14 +27,23 @@ class User extends React.Component{
         this.setState(this.generateState(!this.state.showMore));
     }
     generateState(showMore){
-        return {"showMore": showMore};
+        showMore=showMore===undefined&&this.state.showMore||showMore;
+        //showMore=showMore||this.state.showMore;
+        return {"showMore": showMore,"favorito": this.props.favorito};
     }
+    
+    componentDidUpdate(prevProps, prevState){
+        if (this.props.favorito !== prevProps.favorito ){
+            this.setState(this.generateState());
+        }
+    }
+
     render(){
                     // JSX    VVVVVVV
         return (
-            <div className={`user ${this.props.mode}`} onClick={this.toogleMore.bind(this)}>
+            <div className={`user ${this.props.mode} ${this.state.favorito && "favorito" || ""}`} onClick={this.toogleMore.bind(this)}>
                 <div className="picture">
-                        <img src={`/pictures/default.png`} 
+                        <img onClick={this.props.onFavoritoChange} src={`/pictures/default.png`} 
                           alt={`Fotografía del usuario: ${this.userInfo.firstName} ${this.userInfo.lastName}`}/>
                 </div>
                 <div className="info">
